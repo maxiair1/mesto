@@ -1,0 +1,6 @@
+.profile {
+  display: grid;
+  grid-template-columns: 120px auto 150px;
+  grid-template-areas: "img title button";
+  gap: 30px;
+}
