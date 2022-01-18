@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./pages/index.css">
+    <title>Mesto</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header page__header page__adaptive">
+        <div class="header__logo"></div>
+        <div class="header__line"></div>
+      </header>
+      <main class="content">
+        <section class="profile page__profile page__adaptive">
+          <figure class="profile__avatar">
+            <img src="./images/profile_avatar.jpg" alt="Аватар" class="profile__avatar-image">
+          </figure>
+          <div class="profile__info">
+            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <p class="profile__subtitle">Исследователь океана</p>
+          </div>
+          <div class="profile__edit-button"></div>
+          <div class="profile__add-button"></div>
+        </section>
+        <section class="elements page__adaptive">
+          <article class="element">
+            <img src="./images/profile_avatar.jpg" alt="Карачаевск" class="element__image">
+            <h2 class="element__title"></h2>
+
+          </article>
+        </section>
+      </main>
+      <footer class="footer page__footer page__adaptive">
+        <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
+      </footer>
+    </div>
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>
