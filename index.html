@@ -22,9 +22,9 @@
               <h1 class="profile__title">Жак-Ив Кусто</h1>
               <p class="profile__subtitle">Исследователь океана</p>
             </div>
-            <button href="#" class="profile__edit-button"></button>
+            <button type="button" class="profile__edit-button"></button>
           </div>
-          <button href="#" class="profile__add-button"></button>
+          <button type="button" class="profile__add-button"></button>
         </section>
         <section class="elements page__adaptive page__elements">
           <article class="element">
@@ -74,6 +74,19 @@
       <footer class="footer page__footer page__adaptive">
         <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
       </footer>
+      <div class="popup popup_opened">
+        <div class="popup__container">
+          <form action="#" class="popup__form" name="popup-form">
+            <div class="popup__form-container">
+              <h2 class="popup__title">Редактировать профиль</h2>
+              <input type="text" class="popup__input popup__input_name" value="">
+              <input type="text" class="popup__input popup__input_about" value="">
+              <button type="submit" class="popup__button-submit">Сохранить</button>
+            </div>
+          </form>
+          <button type="button" class="popup__button-close"></button>
+        </div>
+      </div>
     </div>
     <script src="./scripts/index.js"></script>
   </body>
