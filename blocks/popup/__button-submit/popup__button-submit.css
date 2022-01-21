@@ -14,3 +14,9 @@
 .popup__button-submit:hover {
   background-color: rgba(0,0,0,0.8);
 }
+
+@media screen and (max-width: 620px) {
+  .popup__button-submit {
+    font-size: 14px;
+  }
+}

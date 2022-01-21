@@ -25,7 +25,8 @@ const addProfile = () => {
 
 };
 
-const submitForm = () => {
+const submitForm = (evt) => {
+  evt.preventDefault();
   profileName.textContent = inputName.value;
   profileAbout.textContent = inputAbout.value;
   closePopup();
@@ -47,6 +48,6 @@ const closePopup = () => {
 
 popup.addEventListener('click', closePopupByClickArea)
 buttonEditProfile.addEventListener('click', editProfile);
-buttonAddProfile.addEventListener('click', addProfile);
+// buttonAddProfile.addEventListener('click', addProfile);
 buttonClosePopup.addEventListener('click', closePopup);
 buttonSubmitPopupForm.addEventListener('click', submitForm);
