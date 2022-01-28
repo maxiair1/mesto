@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./pages/index.css">
-    <title>Mesto</title>
+    <title>Место</title>
   </head>
   <body>
     <div class="page">
       <header class="header page__header">
         <div class="header__logo"></div>
-        <div class="header__line"></div>
       </header>
       <main class="content">
         <section class="profile page__adaptive page__profile">
@@ -22,53 +21,51 @@
               <h1 class="profile__title">Жак-Ив Кусто</h1>
               <p class="profile__subtitle">Исследователь океана</p>
             </div>
-            <button type="button" class="profile__button-edit"></button>
+            <button type="button" name="button-edit" aria-label="Редактировать профиль" class="profile__button-edit"></button>
           </div>
-          <button type="button" class="profile__button-add">
-            <span class="profile__button-add-icon"></span>
-          </button>
+          <button type="button" name="button-add" aria-label="Добавить фото" class="profile__button-add"></button>
         </section>
         <section class="elements page__adaptive page__elements">
           <article class="element">
             <img src="./images/element-karachaevsk.jpg" alt="Карачаевск" class="element__image">
             <div class="element__title-field">
               <h2 class="element__title">Карачаевск</h2>
-              <div class="element__heart"></div>
+              <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
             </div>
           </article>
           <article class="element">
             <img src="./images/element-socotra2.jpg" alt="Сокотра" class="element__image">
             <div class="element__title-field">
               <h2 class="element__title">Сокотра</h2>
-              <div class="element__heart"></div>
+              <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
             </div>
           </article>
           <article class="element">
             <img src="./images/element-sochi.jpg" alt="Сочи" class="element__image">
             <div class="element__title-field">
               <h2 class="element__title">Сочи</h2>
-              <div class="element__heart"></div>
+              <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
             </div>
           </article>
           <article class="element">
             <img src="./images/element-voronezh.jpg" alt="Воронеж" class="element__image">
             <div class="element__title-field">
               <h2 class="element__title">Воронеж</h2>
-              <div class="element__heart"></div>
+              <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
             </div>
           </article>
           <article class="element">
             <img src="./images/element-yellowstone.jpg" alt="Йеллоустон" class="element__image">
             <div class="element__title-field">
               <h2 class="element__title">Йеллоустон</h2>
-              <div class="element__heart"></div>
+              <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
             </div>
           </article>
           <article class="element">
             <img src="./images/element-moscow.jpg" alt="Москва" class="element__image">
             <div class="element__title-field">
               <h2 class="element__title">Москва</h2>
-              <div class="element__heart"></div>
+              <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
             </div>
           </article>
         </section>
@@ -78,15 +75,13 @@
       </footer>
       <div class="popup">
         <div class="popup__container">
-          <form action="#" class="popup__form" name="popup-form">
-            <div class="popup__form-container">
-              <h2 class="popup__title">Редактировать профиль</h2>
-              <input type="text" class="popup__input popup__input_name" value="">
-              <input type="text" class="popup__input popup__input_about" value="">
-              <button type="submit" class="popup__button-submit">Сохранить</button>
-            </div>
+          <form action="" name="profile-form" class="popup__form">
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <input type="text" name="profile-name" value="" class="popup__input popup__input_field_name" >
+            <input type="text" name="profile-about" value="" class="popup__input popup__input_field_about">
+            <button type="submit" class="popup__button-submit">Сохранить</button>
           </form>
-          <button type="button" class="popup__button-close"></button>
+          <button type="button" name="button-close" aria-label="Закрыть" class="popup__button-close"></button>
         </div>
       </div>
     </div>
