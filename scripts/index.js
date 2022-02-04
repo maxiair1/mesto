@@ -1,5 +1,6 @@
-const popup = document.querySelector('.popup');
-const popupForm = document.querySelector('.popup__form')
+const popupForm = document.querySelector('.popup_overlay_form');
+const popupImage = document.querySelector('.popup_overlay_image');
+const popupCurrentForm = document.querySelector('.popup__form')
 const buttonClosePopup = document.querySelector('.popup__button-close');
 const buttonEditProfile = document.querySelector('.profile__button-edit');
 const buttonAddCard = document.querySelector('.profile__button-add');
@@ -66,14 +67,33 @@ const createCardElements = (element) => {
 const addListeners = (el) => {
   el.querySelector('.element__heart').addEventListener('click', clickToLike);
   el.querySelector('.element__trash').addEventListener('click', removeCard);
+  el.querySelector('.element').addEventListener('click', viewPhoto);
+
 };
 
 //клик по лайку
 const clickToLike = (evt) => {
-  console.log(evt.target.closest('.element')
-    .querySelector('.element__heart').style.backgroundImage);
+
   evt.target.closest('.element')
     .querySelector('.element__heart').classList.toggle('element__heart_black_active') ;
+};
+
+//открываем фото если не нажали на корзину или сердечко
+const viewPhoto = (evt) => {
+  const targetTrash = evt.target.classList.contains('element__trash');
+  const currentTargetTrash = evt.currentTarget.querySelector('.element__trash').classList.contains('element__trash');
+  const targetHeart = evt.target.classList.contains('element__heart');
+  const currentTargetHeart = evt.currentTarget.querySelector('.element__heart').classList.contains('element__heart');
+
+  if(!(targetTrash === currentTargetTrash) && !(targetHeart === currentTargetHeart)) {
+    const img = evt.target.closest('.element').querySelector('.element__image').src;
+    const title = evt.target.closest('.element').querySelector('.element__title').textContent;
+    popupImage.querySelector('.popup__image').src = img;
+    popupImage.querySelector('.popup__image').alt = title;
+    popupImage.querySelector('.popup__subtitle').textContent = title;
+    popupImage.querySelector('.popup__button-close').addEventListener('click', closeAllPopup);
+    openPopup(popupImage);
+  }
 };
 
 //предварительно заполняем поля формы профиля и открываем попап
@@ -81,7 +101,7 @@ const openEditProfile = () => {
   formTitle.innerText = formEditProfile.title;
   inputName.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
-  openPopup();
+  openPopup(popupForm);
 };
 
 //предварительно заполняем поля формы карточки и открываем попап
@@ -91,7 +111,7 @@ const openAddCard = () => {
   inputAbout.value = "";
   inputName.placeholder = formAddCard.nameInput;
   inputAbout.placeholder = formAddCard.linkInput;
-  openPopup();
+  openPopup(popupForm);
 };
 
 //при сабмите формы определяем кому относится и передаем соотв колбэк
@@ -100,14 +120,14 @@ const submitForm = (evt) => {
   if(evt.currentTarget.querySelector('.popup__title').textContent === formEditProfile.title)
     editProfile();
   else if(evt.currentTarget.querySelector('.popup__title').textContent === formAddCard.title)
-    addCard(popupForm);
-  closePopup();
+    addCard(popupCurrentForm);
+  closePopup(popupForm);
 };
 
 const editProfile = () => {
   profileName.textContent = inputName.value;
   profileAbout.textContent = inputAbout.value;
-  closePopup();
+  closePopup(popupForm);
 };
 
 //достаем из формы данные инпутов и передаем на формирование карточки (конструкция взята из doka.guide)
@@ -127,17 +147,23 @@ const removeCard = (evt) => {
   evt.target.closest('.element').remove();
 };
 
-const openPopup = () => {
-  popup.classList.add('popup_opened');
+const openPopup = (pop) => {
+  pop.classList.add('popup_opened');
 };
 
-const closePopup = () => {
-  popup.classList.remove('popup_opened');
+//удаляем попап, который мы передали вручную
+const closePopup = (pop) => {
+    pop.classList.remove('popup_opened');
 };
+
+//удаляем попап, если мы достаем его из event и удаляем
+const closeAllPopup = (pop) => {
+  pop.target.closest('.popup').classList.remove('popup_opened');
+}
 
 renderCardsFromArray();
 buttonEditProfile.addEventListener('click', openEditProfile);
 buttonAddCard.addEventListener('click', openAddCard);
-buttonClosePopup.addEventListener('click', closePopup);
-popupForm.addEventListener('submit', submitForm);
+buttonClosePopup.addEventListener('click', closeAllPopup);
+popupCurrentForm.addEventListener('submit', submitForm);
 
