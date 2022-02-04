@@ -9,7 +9,7 @@ const inputAbout = document.querySelector('.popup__input_field_about');
 const profileName = document.querySelector('.profile__title');
 const profileAbout = document.querySelector('.profile__subtitle');
 const elements = document.querySelector('.elements');
-const elementTemplate = document.querySelector('.template-card').content;
+const elementTemplate = document.querySelector('#template-card').content;
 
 const formEditProfile = {
   title: 'Редактировать профиль'
@@ -47,18 +47,36 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-
-const renderCards = (elem) => {
-  clearRenderCards();
-  elem.forEach( item => {
-    const elementClone = elementTemplate.cloneNode(true);
-    elementClone.querySelector('.element__title').innerText = item.name;
-    elementClone.querySelector('.element__image').src = item.link;
-    elementClone.querySelector('.element__image').alt = item.name;
-    elements.appendChild(elementClone);
-  });
+//первая загрузка карточек из массива
+const renderCardsFromArray = () => {
+  initialCards.forEach(createCardElements);
 };
 
+//здесь мы собираем элемент из темплейта и привязываем соотв обработчики событий
+const createCardElements = (element) => {
+  const elementClone = elementTemplate.cloneNode(true);
+  elementClone.querySelector('.element__title').innerText = element.name;
+  elementClone.querySelector('.element__image').src = element.link;
+  elementClone.querySelector('.element__image').alt = element.name;
+  addListeners(elementClone);
+  elements.prepend(elementClone);
+}
+
+//вешаем обработачики событий на кнопки карточки
+const addListeners = (el) => {
+  el.querySelector('.element__heart').addEventListener('click', clickToLike);
+  el.querySelector('.element__trash').addEventListener('click', removeCard);
+};
+
+//клик по лайку
+const clickToLike = (evt) => {
+  console.log(evt.target.closest('.element')
+    .querySelector('.element__heart').style.backgroundImage);
+  evt.target.closest('.element')
+    .querySelector('.element__heart').classList.toggle('element__heart_black_active') ;
+};
+
+//предварительно заполняем поля формы профиля и открываем попап
 const openEditProfile = () => {
   formTitle.innerText = formEditProfile.title;
   inputName.value = profileName.textContent;
@@ -66,6 +84,7 @@ const openEditProfile = () => {
   openPopup();
 };
 
+//предварительно заполняем поля формы карточки и открываем попап
 const openAddCard = () => {
   formTitle.innerText = formAddCard.title;
   inputName.value = "";
@@ -75,6 +94,7 @@ const openAddCard = () => {
   openPopup();
 };
 
+//при сабмите формы определяем кому относится и передаем соотв колбэк
 const submitForm = (evt) => {
   evt.preventDefault();
   if(evt.currentTarget.querySelector('.popup__title').textContent === formEditProfile.title)
@@ -90,21 +110,22 @@ const editProfile = () => {
   closePopup();
 };
 
-const addCard = (formNode) => {
-  const { elements } = formNode;
+//достаем из формы данные инпутов и передаем на формирование карточки (конструкция взята из doka.guide)
+const addCard = (form) => {
+  const { elements } = form;
   const data = Array.from(elements)
     .filter((item) => !!item.name)
     .map((element) => {
       const { name, value } = element
       return { name, value };
     });
-  initialCards.unshift({name:data[0].value, link: data[1].value});
-  renderCards(initialCards);
+  createCardElements({name:data[0].value, link: data[1].value});
 };
 
-const clearRenderCards = () => {
-  elements.querySelectorAll('.element').forEach( i => i.remove());
-}
+//удаляем карточку
+const removeCard = (evt) => {
+  evt.target.closest('.element').remove();
+};
 
 const openPopup = () => {
   popup.classList.add('popup_opened');
@@ -114,7 +135,7 @@ const closePopup = () => {
   popup.classList.remove('popup_opened');
 };
 
-renderCards(initialCards);
+renderCardsFromArray();
 buttonEditProfile.addEventListener('click', openEditProfile);
 buttonAddCard.addEventListener('click', openAddCard);
 buttonClosePopup.addEventListener('click', closePopup);
