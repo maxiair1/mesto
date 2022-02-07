@@ -1,169 +1,116 @@
-const popupForm = document.querySelector('.popup_overlay_form');
-const popupImage = document.querySelector('.popup_overlay_image');
-const popupCurrentForm = document.querySelector('.popup__form')
-const buttonClosePopup = document.querySelector('.popup__button-close');
+const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
+const popupCardAdd = document.querySelector('.popup_type_card-add');
+const popupPhotoOpen = document.querySelector('.popup_type_photo-open');
+const formProfileEdit = document.querySelector('.popup__form_type_profile-edit')
+const formCardAdd = document.querySelector('.popup__form_type_card-add')
+const buttonCloseProfileEdit = document.querySelector('.popup__button-close_type_profile-edit');
+const buttonCloseCardAdd = document.querySelector('.popup__button-close_type_card-add');
+const buttonClosePhotoOpen = document.querySelector('.popup__button-close_type_photo-open');
 const buttonEditProfile = document.querySelector('.profile__button-edit');
 const buttonAddCard = document.querySelector('.profile__button-add');
-const formTitle = document.querySelector('.popup__title');
-const inputName = document.querySelector('.popup__input_field_name');
-const inputAbout = document.querySelector('.popup__input_field_about');
+const popupProfileInputName = popupProfileEdit.querySelector('.popup__input_field_name');
+const popupProfileInputAbout = popupProfileEdit.querySelector('.popup__input_field_about');
+const popupCardInputName = popupCardAdd.querySelector('.popup__input_field_name');
+const popupCardInputLink = popupCardAdd.querySelector('.popup__input_field_about');
 const profileName = document.querySelector('.profile__title');
 const profileAbout = document.querySelector('.profile__subtitle');
 const elements = document.querySelector('.elements');
 const elementTemplate = document.querySelector('#template-card').content;
 
-const formEditProfile = {
-  title: 'Редактировать профиль'
-};
-
-const formAddCard = {
-  title: 'Новое место',
-  nameInput: 'Название',
-  linkInput: 'Ссылка на картинку'
-};
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 //первая загрузка карточек из массива
 const renderCardsFromArray = () => {
-  initialCards.forEach(createCardElements);
+  const cardItem = initialCards.map(createCardElement);
+  cardItem.forEach((item) => elements.append(item));
 };
 
 //здесь мы собираем элемент из темплейта и привязываем соотв обработчики событий
-const createCardElements = (element) => {
+const createCardElement = (element) => {
   const elementClone = elementTemplate.cloneNode(true);
+  const cardImage = elementClone.querySelector('.element__image');
   elementClone.querySelector('.element__title').innerText = element.name;
-  elementClone.querySelector('.element__image').src = element.link;
-  elementClone.querySelector('.element__image').alt = element.name;
-  addListeners(elementClone);
-  elements.prepend(elementClone);
-}
+  cardImage.src = element.link;
+  cardImage.alt = element.name;
+  addListeners(elementClone, element);
+  return elementClone;
+};
 
 //вешаем обработачики событий на кнопки карточки
-const addListeners = (el) => {
-  el.querySelector('.element__heart').addEventListener('click', clickToLike);
-  el.querySelector('.element__trash').addEventListener('click', removeCard);
-  el.querySelector('.element').addEventListener('click', viewPhoto);
+const addListeners = (elementClone, element) => {
+  elementClone.querySelector('.element__heart').addEventListener('click', clickToLike);
+  elementClone.querySelector('.element__trash').addEventListener('click', removeCard);
+  elementClone.querySelector('.element__image').addEventListener('click', () => viewPhoto(element));
 
 };
 
 //клик по лайку
 const clickToLike = (evt) => {
-
   evt.target.closest('.element')
     .querySelector('.element__heart').classList.toggle('element__heart_black_active') ;
 };
 
-//открываем фото если не нажали на корзину или сердечко
-const viewPhoto = (evt) => {
-  const targetTrash = evt.target.classList.contains('element__trash');
-  const currentTargetTrash = evt.currentTarget.querySelector('.element__trash').classList.contains('element__trash');
-  const targetHeart = evt.target.classList.contains('element__heart');
-  const currentTargetHeart = evt.currentTarget.querySelector('.element__heart').classList.contains('element__heart');
-
-  if(!(targetTrash === currentTargetTrash) && !(targetHeart === currentTargetHeart)) {
-    const img = evt.target.closest('.element').querySelector('.element__image').src;
-    const title = evt.target.closest('.element').querySelector('.element__title').textContent;
-    popupImage.querySelector('.popup__image').src = img;
-    popupImage.querySelector('.popup__image').alt = title;
-    popupImage.querySelector('.popup__subtitle').textContent = title;
-    popupImage.querySelector('.popup__button-close').addEventListener('click', closeAllPopup);
-    openPopup(popupImage);
-  }
+//открываем popup фото
+const viewPhoto = (element) => {
+    popupPhotoOpen.querySelector('.popup__image').src = element.link;
+    popupPhotoOpen.querySelector('.popup__image').alt = element.name;
+    popupPhotoOpen.querySelector('.popup__subtitle').textContent = element.name;
+    openPopup(popupPhotoOpen);
 };
 
 //предварительно заполняем поля формы профиля и открываем попап
 const openEditProfile = () => {
-  formTitle.innerText = formEditProfile.title;
-  inputName.value = profileName.textContent;
-  inputAbout.value = profileAbout.textContent;
-  openPopup(popupForm);
+  popupProfileInputName.value = profileName.textContent;
+  popupProfileInputAbout.value = profileAbout.textContent;
+  openPopup(popupProfileEdit);
 };
 
-//предварительно заполняем поля формы карточки и открываем попап
+//открываем попап формы карточки
 const openAddCard = () => {
-  formTitle.innerText = formAddCard.title;
-  inputName.value = "";
-  inputAbout.value = "";
-  inputName.placeholder = formAddCard.nameInput;
-  inputAbout.placeholder = formAddCard.linkInput;
-  openPopup(popupForm);
+  openPopup(popupCardAdd);
 };
 
-//при сабмите формы определяем кому относится и передаем соотв колбэк
-const submitForm = (evt) => {
-  evt.preventDefault();
-  if(evt.currentTarget.querySelector('.popup__title').textContent === formEditProfile.title)
-    editProfile();
-  else if(evt.currentTarget.querySelector('.popup__title').textContent === formAddCard.title)
-    addCard(popupCurrentForm);
-  closePopup(popupForm);
+//при сабмите формы профиля переписываем соотв поля профиля
+const handleProfileFormSubmit = (event) => {
+  event.preventDefault();
+  profileName.textContent = popupProfileInputName.value;
+  profileAbout.textContent = popupProfileInputAbout.value;
+  closePopup(popupProfileEdit);
 };
 
-const editProfile = () => {
-  profileName.textContent = inputName.value;
-  profileAbout.textContent = inputAbout.value;
-  closePopup(popupForm);
-};
+//при сабмите формы карточки добавляем карточку в сетку и очищаем инпуты
+const handleCardFormSubmit = (event) => {
+  event.preventDefault();
+  elements.prepend(createCardElement({name:popupCardInputName.value, link:popupCardInputLink.value}));
+  popupCardInputName.value = '';
+  popupCardInputLink.value = '';
+  closePopup(popupCardAdd);
 
-//достаем из формы данные инпутов и передаем на формирование карточки (конструкция взята из doka.guide)
-const addCard = (form) => {
-  const { elements } = form;
-  const data = Array.from(elements)
-    .filter((item) => !!item.name)
-    .map((element) => {
-      const { name, value } = element
-      return { name, value };
-    });
-  createCardElements({name:data[0].value, link: data[1].value});
 };
 
 //удаляем карточку
-const removeCard = (evt) => {
-  evt.target.closest('.element').remove();
+const removeCard = (event) => {
+  event.target.closest('.element').remove();
 };
 
-const openPopup = (pop) => {
-  pop.classList.add('popup_opened');
+const openPopup = (popup) => {
+  popup.classList.add('popup_opened');
 };
 
-//удаляем попап, который мы передали вручную
-const closePopup = (pop) => {
-    pop.classList.remove('popup_opened');
+//закрываем попап, который мы передали вручную
+const closePopup = (popup) => {
+    popup.classList.remove('popup_opened');
 };
 
-//удаляем попап, если мы достаем его из event и удаляем
-const closeAllPopup = (pop) => {
-  pop.target.closest('.popup').classList.remove('popup_opened');
+//закрываем попап, если мы достаем его из event и удаляем
+const closeAllPopup = (popup) => {
+  popup.target.closest('.popup').classList.remove('popup_opened');
 }
 
 renderCardsFromArray();
 buttonEditProfile.addEventListener('click', openEditProfile);
 buttonAddCard.addEventListener('click', openAddCard);
-buttonClosePopup.addEventListener('click', closeAllPopup);
-popupCurrentForm.addEventListener('submit', submitForm);
+buttonClosePhotoOpen.addEventListener('click', closeAllPopup);
+buttonCloseProfileEdit.addEventListener('click', closeAllPopup);
+buttonCloseCardAdd.addEventListener('click', closeAllPopup);
+formProfileEdit.addEventListener('submit', handleProfileFormSubmit);
+formCardAdd.addEventListener('submit', handleCardFormSubmit);
 

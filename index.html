@@ -25,31 +25,41 @@
           </div>
           <button type="button" name="button-add" aria-label="Добавить фото" class="profile__button-add"></button>
         </section>
-        <section class="elements page__adaptive page__elements">
-        </section>
+        <section class="elements page__adaptive page__elements"></section>
       </main>
       <footer class="footer page__adaptive page__footer">
         <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
       </footer>
-      <div class="popup popup_overlay_form">
+      <div class="popup popup_type_profile-edit">
         <div class="popup__container">
-          <form action="#" name="profile-form" class="popup__form">
+          <form action="#" name="profile-form" class="popup__form popup__form_type_profile-edit">
             <h2 class="popup__title">Редактировать профиль</h2>
             <input type="text" name="profile-name" value="" class="popup__input popup__input_field_name" >
             <input type="text" name="profile-about" value="" class="popup__input popup__input_field_about">
-            <button type="submit" class="popup__button-submit">Сохранить</button>
+            <button type="submit" class="popup__button-submit popup__button-submit_type_profile-edit">Сохранить</button>
           </form>
-          <button type="button" name="button-close" aria-label="Закрыть" class="popup__button-close"></button>
+          <button type="button" name="button-close_type_profile-edit" aria-label="Закрыть" class="popup__button-close popup__button-close_type_profile-edit"></button>
+        </div>
+      </div>
+      <div class="popup popup_type_card-add">
+        <div class="popup__container">
+          <form action="#" name="profile-form" class="popup__form popup__form_type_card-add">
+            <h2 class="popup__title">Новое место</h2>
+            <input type="text" name="profile-name" value="" placeholder="Название" class="popup__input popup__input_field_name" >
+            <input type="text" name="profile-about" value="" placeholder="Ссылка на картинку" class="popup__input popup__input_field_about">
+            <button type="submit" class="popup__button-submit popup__button-submit_type_card-add">Сохранить</button>
+          </form>
+          <button type="button" name="button-close_type_card-add" aria-label="Закрыть" class="popup__button-close popup__button-close_type_card-add"></button>
+        </div>
+      </div>
+      <div class="popup popup_type_photo-open">
+        <div class="popup__image-container">
+          <img src="#" alt="" class="popup__image">
+          <p class="popup__subtitle"></p>
+          <button type="button" name="button-close_type_photo-open" aria-label="Закрыть" class="popup__button-close popup__button-close_type_photo-open"></button>
         </div>
       </div>
     </div>
-    <div class="popup popup_overlay_image">
-      <div class="popup__image-container">
-        <img src="#" alt="" class="popup__image">
-        <p class="popup__subtitle"></p>
-        <button type="button" name="button-close" aria-label="Закрыть" class="popup__button-close"></button>
-      </div>
-      </div>
     <template id="template-card">
       <article class="element">
         <img src="#" alt="" class="element__image">
@@ -60,6 +70,7 @@
         <button type="button" name="button-trash" aria-label="Удалить" class="element__trash"></button>
       </article>
     </template>
+    <script src="./scripts/cards.js"></script>
     <script src="./scripts/index.js"></script>
   </body>
 </html>
