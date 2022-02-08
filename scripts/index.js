@@ -19,40 +19,40 @@ const elementTemplate = document.querySelector('#template-card').content;
 
 //первая загрузка карточек из массива
 const renderCardsFromArray = () => {
-  const cardItem = initialCards.map(createCardElement);
-  cardItem.forEach((item) => elements.append(item));
+  initialCards.forEach((item) => elements.append(createCardElement(item)));
 };
 
 //здесь мы собираем элемент из темплейта и привязываем соотв обработчики событий
 const createCardElement = (element) => {
   const elementClone = elementTemplate.cloneNode(true);
   const cardImage = elementClone.querySelector('.element__image');
-  elementClone.querySelector('.element__title').innerText = element.name;
+  const cardTitle = elementClone.querySelector('.element__title');
+  cardTitle.innerText = element.name;
   cardImage.src = element.link;
   cardImage.alt = element.name;
-  addListeners(elementClone, element);
+  addListeners(elementClone, cardTitle, cardImage);
   return elementClone;
 };
 
 //вешаем обработачики событий на кнопки карточки
-const addListeners = (elementClone, element) => {
+const addListeners = (elementClone, cardTitle, cardImage) => {
   elementClone.querySelector('.element__heart').addEventListener('click', clickToLike);
   elementClone.querySelector('.element__trash').addEventListener('click', removeCard);
-  elementClone.querySelector('.element__image').addEventListener('click', () => viewPhoto(element));
+  elementClone.querySelector('.element__image').addEventListener('click', () => viewPhoto(cardTitle, cardImage));
 
 };
 
 //клик по лайку
 const clickToLike = (evt) => {
-  evt.target.closest('.element')
-    .querySelector('.element__heart').classList.toggle('element__heart_black_active') ;
+  evt.target.classList.toggle('element__heart_black_active') ;
 };
 
 //открываем popup фото
-const viewPhoto = (element) => {
-    popupPhotoOpen.querySelector('.popup__image').src = element.link;
-    popupPhotoOpen.querySelector('.popup__image').alt = element.name;
-    popupPhotoOpen.querySelector('.popup__subtitle').textContent = element.name;
+const viewPhoto = (cardTitle, cardImage) => {
+  const photo = popupPhotoOpen.querySelector('.popup__image');
+    photo.src = cardImage.src;
+    photo.alt = cardImage.alt;
+    popupPhotoOpen.querySelector('.popup__subtitle').textContent = cardTitle.textContent;
     openPopup(popupPhotoOpen);
 };
 
@@ -100,17 +100,12 @@ const closePopup = (popup) => {
     popup.classList.remove('popup_opened');
 };
 
-//закрываем попап, если мы достаем его из event и удаляем
-const closeAllPopup = (popup) => {
-  popup.target.closest('.popup').classList.remove('popup_opened');
-}
-
 renderCardsFromArray();
 buttonEditProfile.addEventListener('click', openEditProfile);
 buttonAddCard.addEventListener('click', openAddCard);
-buttonClosePhotoOpen.addEventListener('click', closeAllPopup);
-buttonCloseProfileEdit.addEventListener('click', closeAllPopup);
-buttonCloseCardAdd.addEventListener('click', closeAllPopup);
+buttonClosePhotoOpen.addEventListener('click', () => closePopup(popupPhotoOpen));
+buttonCloseProfileEdit.addEventListener('click', () => closePopup(popupProfileEdit));
+buttonCloseCardAdd.addEventListener('click', () => closePopup(popupCardAdd));
 formProfileEdit.addEventListener('submit', handleProfileFormSubmit);
 formCardAdd.addEventListener('submit', handleCardFormSubmit);
 
