@@ -30,15 +30,15 @@ const createCardElement = (element) => {
   cardTitle.innerText = element.name;
   cardImage.src = element.link;
   cardImage.alt = element.name;
-  addListeners(elementClone, cardTitle, cardImage);
+  addListeners(elementClone, element, cardImage);
   return elementClone;
 };
 
 //вешаем обработачики событий на кнопки карточки
-const addListeners = (elementClone, cardTitle, cardImage) => {
+const addListeners = (elementClone, element, cardImage) => {
   elementClone.querySelector('.element__heart').addEventListener('click', clickToLike);
   elementClone.querySelector('.element__trash').addEventListener('click', removeCard);
-  elementClone.querySelector('.element__image').addEventListener('click', () => viewPhoto(cardTitle, cardImage));
+  cardImage.addEventListener('click', () => viewPhoto(element.name, element.link));
 
 };
 
@@ -48,11 +48,11 @@ const clickToLike = (evt) => {
 };
 
 //открываем popup фото
-const viewPhoto = (cardTitle, cardImage) => {
+const viewPhoto = (name, link) => {
   const photo = popupPhotoOpen.querySelector('.popup__image');
-    photo.src = cardImage.src;
-    photo.alt = cardImage.alt;
-    popupPhotoOpen.querySelector('.popup__subtitle').textContent = cardTitle.textContent;
+    photo.src = link;
+    photo.alt = name;
+    popupPhotoOpen.querySelector('.popup__subtitle').textContent = name;
     openPopup(popupPhotoOpen);
 };
 
