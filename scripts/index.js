@@ -30,12 +30,12 @@ const createCardElement = (element) => {
   cardTitle.innerText = element.name;
   cardImage.src = element.link;
   cardImage.alt = element.name;
-  addListeners(elementClone, element, cardImage);
+  addCardListeners(elementClone, element, cardImage);
   return elementClone;
 };
 
 //вешаем обработачики событий на кнопки карточки
-const addListeners = (elementClone, element, cardImage) => {
+const addCardListeners = (elementClone, element, cardImage) => {
   elementClone.querySelector('.element__heart').addEventListener('click', clickToLike);
   elementClone.querySelector('.element__trash').addEventListener('click', removeCard);
   cardImage.addEventListener('click', () => viewPhoto(element.name, element.link));
@@ -100,7 +100,17 @@ const closePopup = (popup) => {
     popup.classList.remove('popup_opened');
 };
 
+
 renderCardsFromArray();
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-submit',
+  inactiveButtonClass: 'popup__button-submit_type_inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error'
+});
+
 buttonEditProfile.addEventListener('click', openEditProfile);
 buttonAddCard.addEventListener('click', openAddCard);
 buttonClosePhotoOpen.addEventListener('click', () => closePopup(popupPhotoOpen));
