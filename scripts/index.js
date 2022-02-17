@@ -41,7 +41,6 @@ const addCardListeners = (elementClone, element, cardImage) => {
   elementClone.querySelector('.element__heart').addEventListener('click', clickToLike);
   elementClone.querySelector('.element__trash').addEventListener('click', removeCard);
   cardImage.addEventListener('click', () => viewPhoto(element.name, element.link));
-
 };
 
 //клик по лайку
@@ -55,14 +54,14 @@ const viewPhoto = (name, link) => {
     photo.src = link;
     photo.alt = name;
     popupPhotoOpen.querySelector('.popup__subtitle').textContent = name;
-    openPopup(popupPhotoOpen);
+  openPopup(popupPhotoOpen);
 };
 
 //предварительно заполняем поля формы профиля и открываем попап
 const openEditProfile = (event, formElement) => {
   popupProfileInputName.value = profileName.textContent;
   popupProfileInputAbout.value = profileAbout.textContent;
-  toggleButtonState(validateParams,createInputList(validateParams,formElement),buttonProfileSubmit)
+  toggleButtonState(validateParams,createInputList(validateParams,formElement),buttonProfileSubmit);
   openPopup(popupProfileEdit);
 };
 
@@ -113,51 +112,34 @@ const removeCard = (event) => {
 };
 
 //закрываем попап по оверлею
-const closePopupByClickArea = (event, popup) => {
+const closePopupByClickArea = (event) => {
+  const popup = event.target;
   if(event.target === event.currentTarget) {
     closePopup(popup);
   }
 };
 
 //закрытие попапа клавишей esc
-const closePopupByEsc = (event, popup) => {
+const closePopupByEsc = (event) => {
+  const popupOpened = document.querySelector('.popup_opened');
  if(event.key === 'Escape') {
-   closePopup(popup);
-
+  closePopup(popupOpened);
  }
 }
 
-//формируем массив попапов
-const createPopupList = () => {
-  return Array.from(document.querySelectorAll('.popup'))
-};
-
-//
-const fn = (event) => {
-  if(event.target === event.currentTarget) return true
-  else return false
-}
-
-//
-const fn2 = (popup) => {
-  if(fn)     closePopup(popup);
-
-}
-
-//вешаем на оверлеи попапов обработчики
-const setPopupListeners = (popup) => {
-    popup.addEventListener('mousedown', (event) => closePopupByClickArea(event, popup), {once:true});
-    document.addEventListener('keydown', (event) => closePopupByEsc(event, popup),{once:true});
-}
-
+//открываем попап
 const openPopup = (popup) => {
+  popup.addEventListener('mousedown', closePopupByClickArea);
+  document.addEventListener('keydown', closePopupByEsc);
   popup.classList.add('popup_opened');
-  setPopupListeners(popup);
 };
 
-//закрываем попап, который мы передали вручную
+//закрываем попап
 const closePopup = (popup) => {
-    popup.classList.remove('popup_opened');
+  popup.removeEventListener('mousedown', closePopupByClickArea);
+  document.removeEventListener('keydown', closePopupByEsc);
+  popup.classList.remove('popup_opened');
+
 };
 
 
