@@ -1,4 +1,7 @@
-
+//формируем массив инпутов формы
+const createInputList = (objValidate, formElement) => {
+  return Array.from(formElement.querySelectorAll(objValidate.inputSelector));
+}
 //отображение ошибки
 const showInputError = (objValidate, formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -26,7 +29,7 @@ const checkInputValidity = (objValidate, formElement, inputElement) => {
 
 //вешаем обработчики событий на поля ввода
 const setEventListeners = (objValidate, formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(objValidate.inputSelector));
+  const inputList = createInputList(objValidate, formElement);
   const buttonElement = formElement.querySelector(objValidate.submitButtonSelector);
   toggleButtonState(objValidate,inputList, buttonElement);
   inputList.forEach((inputElement) => {

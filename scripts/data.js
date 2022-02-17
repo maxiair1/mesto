@@ -26,3 +26,11 @@ const initialCards = [
   }
 ];
 
+const validateParams = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-submit',
+  inactiveButtonClass: 'popup__button-submit_type_inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error'
+}
