@@ -8,5 +8,5 @@
 
 .popup__button-submit_type_inactive:hover {
   background-color: #FFFFFF;
-
+  cursor: default;
 }

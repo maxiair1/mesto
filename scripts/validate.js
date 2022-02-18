@@ -53,10 +53,7 @@ const toggleButtonState = (objValidate, inputList, buttonElement) => {
 //проверка валидности всех полей формы
 const hasInvalidInput = (inputList) => {
   return inputList.some((input) => {
-    if(input.validity.valid){
-      return false;
-    }
-    else return true;
+    return !input.validity.valid;
   })
 };
 
