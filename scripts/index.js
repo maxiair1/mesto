@@ -51,9 +51,9 @@ const clickToLike = (evt) => {
 //открываем popup фото
 const viewPhoto = (name, link) => {
   const photo = popupPhotoOpen.querySelector('.popup__image');
-    photo.src = link;
-    photo.alt = name;
-    popupPhotoOpen.querySelector('.popup__subtitle').textContent = name;
+  photo.src = link;
+  photo.alt = name;
+  popupPhotoOpen.querySelector('.popup__subtitle').textContent = name;
   openPopup(popupPhotoOpen);
 };
 
@@ -74,37 +74,25 @@ const openAddCard = (event, formElement) => {
 
 //очистка полей формы карточки
 const clearCardForm = () => {
-  popupCardInputName.value = '';
-  popupCardInputLink.value = '';
+  formCardAdd.reset();
 }
 
 //при сабмите формы профиля переписываем соотв поля профиля
 const handleProfileFormSubmit = (event, formElement) => {
   event.preventDefault();
-  if(checkForm(formElement)) {
-    profileName.textContent = popupProfileInputName.value;
-    profileAbout.textContent = popupProfileInputAbout.value;
-    closePopup(popupProfileEdit);
-  }
+  profileName.textContent = popupProfileInputName.value;
+  profileAbout.textContent = popupProfileInputAbout.value;
+  closePopup(popupProfileEdit);
 };
 
 //при сабмите формы карточки добавляем карточку в сетку и очищаем инпуты
 const handleCardFormSubmit = (event, formElement) => {
   event.preventDefault();
-  if(checkForm(formElement)) {
-    elements.prepend(createCardElement({name: popupCardInputName.value, link: popupCardInputLink.value}));
-    clearCardForm();
-    closePopup(popupCardAdd);
-  }
+  elements.prepend(createCardElement({name: popupCardInputName.value, link: popupCardInputLink.value}));
+  clearCardForm();
+  closePopup(popupCardAdd);
 };
 
-//проверка формы на валидацию
-const checkForm = (formElement) => {
-  if(!hasInvalidInput(createInputList(validateParams, formElement))){
-    return true;
-  }
-  else return false;
-}
 
 //удаляем карточку
 const removeCard = (event) => {
@@ -122,9 +110,9 @@ const closePopupByClickArea = (event) => {
 //закрытие попапа клавишей esc
 const closePopupByEsc = (event) => {
   const popupOpened = document.querySelector('.popup_opened');
- if(event.key === 'Escape') {
-  closePopup(popupOpened);
- }
+  if(event.key === 'Escape') {
+    closePopup(popupOpened);
+  }
 }
 
 //открываем попап
@@ -139,7 +127,8 @@ const closePopup = (popup) => {
   popup.removeEventListener('mousedown', closePopupByClickArea);
   document.removeEventListener('keydown', closePopupByEsc);
   popup.classList.remove('popup_opened');
-
+  if(!popup.classList.contains('popup_type_photo-open'))
+    clearErrorForm(validateParams, popup.querySelector(validateParams.formSelector));
 };
 
 

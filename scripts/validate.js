@@ -1,7 +1,15 @@
 //формируем массив инпутов формы
 const createInputList = (objValidate, formElement) => {
   return Array.from(formElement.querySelectorAll(objValidate.inputSelector));
-}
+};
+
+//очищаем ошибки с формы
+const clearErrorForm = (objValidate, formElement) => {
+  createInputList(objValidate, formElement).forEach((input) => {
+    hideInputError(objValidate, formElement, input);
+  });
+};
+
 //отображение ошибки
 const showInputError = (objValidate, formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -44,9 +52,11 @@ const setEventListeners = (objValidate, formElement) => {
 const toggleButtonState = (objValidate, inputList, buttonElement) => {
   if(hasInvalidInput(inputList)){
     buttonElement.classList.add(objValidate.inactiveButtonClass);
+    buttonElement.setAttribute('disabled',true);
   }
   else{
     buttonElement.classList.remove(objValidate.inactiveButtonClass);
+    buttonElement.removeAttribute('disabled');
   }
 }
 

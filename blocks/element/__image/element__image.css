@@ -4,13 +4,10 @@
   background-repeat: no-repeat;
   background-position: center;
   object-fit: cover;
-  opacity: 1;
   transition: opacity 0.4s;
 }
 
 .element__image:hover {
   cursor: pointer;
-  opacity: .5;
-  transition: opacity 0.4s;
-
+  opacity: .6;
 }
