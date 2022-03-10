@@ -34,3 +34,14 @@ const validateParams = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error'
 }
+
+const cardParams = {
+  cardTemplate: '#template-card',
+  cardImage: '.element__image',
+  cardTitle: '.element__title',
+  cardLike: '.element__heart',
+  cardRemove: '.element__trash'
+
+}
+
+export {initialCards, validateParams, cardParams};

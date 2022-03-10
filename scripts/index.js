@@ -1,3 +1,7 @@
+import {initialCards, validateParams, cardParams} from './data.js';
+import {enableValidation, toggleButtonState, createInputList, clearErrorForm} from './validate.js';
+import {Card} from './card.js';
+
 const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
 const popupCardAdd = document.querySelector('.popup_type_card-add');
 const popupPhotoOpen = document.querySelector('.popup_type_photo-open');
@@ -21,31 +25,14 @@ const elementTemplate = document.querySelector('#template-card').content;
 
 //первая загрузка карточек из массива
 const renderCardsFromArray = () => {
-  initialCards.forEach((item) => elements.append(createCardElement(item)));
-};
+  //initialCards.forEach((item) => elements.append(createCardElement(item)));
+  initialCards.forEach((item) => {
+    const card = new Card(item, cardParams, viewPhoto);
+    const cardElement = card.generateCard()
+    // elements.append(createCardElement(item))
+    elements.append(cardElement);
+  });
 
-//здесь мы собираем элемент из темплейта и привязываем соотв обработчики событий
-const createCardElement = (element) => {
-  const elementClone = elementTemplate.cloneNode(true);
-  const cardImage = elementClone.querySelector('.element__image');
-  const cardTitle = elementClone.querySelector('.element__title');
-  cardTitle.innerText = element.name;
-  cardImage.src = element.link;
-  cardImage.alt = element.name;
-  addCardListeners(elementClone, element, cardImage);
-  return elementClone;
-};
-
-//вешаем обработачики событий на кнопки карточки
-const addCardListeners = (elementClone, element, cardImage) => {
-  elementClone.querySelector('.element__heart').addEventListener('click', clickToLike);
-  elementClone.querySelector('.element__trash').addEventListener('click', removeCard);
-  cardImage.addEventListener('click', () => viewPhoto(element.name, element.link));
-};
-
-//клик по лайку
-const clickToLike = (evt) => {
-  evt.target.classList.toggle('element__heart_black_active') ;
 };
 
 //открываем popup фото
@@ -88,16 +75,15 @@ const handleProfileFormSubmit = (event, formElement) => {
 //при сабмите формы карточки добавляем карточку в сетку и очищаем инпуты
 const handleCardFormSubmit = (event, formElement) => {
   event.preventDefault();
-  elements.prepend(createCardElement({name: popupCardInputName.value, link: popupCardInputLink.value}));
+  const card = new Card({name: popupCardInputName.value, link: popupCardInputLink.value}, cardParams, viewPhoto);
+  elements.prepend(card.generateCard());
   clearCardForm();
   closePopup(popupCardAdd);
 };
 
 
-//удаляем карточку
-const removeCard = (event) => {
-  event.target.closest('.element').remove();
-};
+//
+
 
 //закрываем попап по оверлею
 const closePopupByClickArea = (event) => {

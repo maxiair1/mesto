@@ -1,3 +1,4 @@
+// import {validateParams} from './data.js';
 //формируем массив инпутов формы
 const createInputList = (objValidate, formElement) => {
   return Array.from(formElement.querySelectorAll(objValidate.inputSelector));
@@ -78,3 +79,4 @@ const enableValidation = (objValidate) => {
   });
 };
 
+export {enableValidation, toggleButtonState, createInputList, clearErrorForm};
