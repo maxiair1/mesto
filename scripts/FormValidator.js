@@ -3,6 +3,9 @@ class FormValidator {
   constructor(validateParams, validateForm) {
     this._validateParams = validateParams;
     this._validateForm = validateForm;
+    this._inputList = this._createInputList();
+    this._buttonElement = this._validateForm.querySelector(this._validateParams.submitButtonSelector);
+
   }
 
   //отменим действия по умолчаниюдля формы и назначим обработчики
@@ -13,9 +16,6 @@ class FormValidator {
 
   //вешаем обработчики событий на поля ввода
   _setEventListeners() {
-    this._inputList = this._createInputList();
-    this._buttonElement = this._validateForm.querySelector(this._validateParams.submitButtonSelector);
-
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);

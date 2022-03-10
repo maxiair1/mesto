@@ -1,10 +1,12 @@
 import {initialCards, validateParams, cardParams} from './data.js';
-import {Card} from './card.js';
+import {Card} from './Card.js';
 import {FormValidator} from './FormValidator.js'
 
 const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
 const popupCardAdd = document.querySelector('.popup_type_card-add');
 const popupPhotoOpen = document.querySelector('.popup_type_photo-open');
+const popupPhotoOpenImage = popupPhotoOpen.querySelector('.popup__image');
+const popupPhotoOpenSubtitle = popupPhotoOpen.querySelector('.popup__subtitle');
 const formProfileEdit = document.querySelector('.popup__form_type_profile-edit')
 const formCardAdd = document.querySelector('.popup__form_type_card-add')
 const buttonCloseProfileEdit = document.querySelector('.popup__button-close_type_profile-edit');
@@ -19,6 +21,8 @@ const popupCardInputLink = popupCardAdd.querySelector('.popup__input_field_about
 const profileName = document.querySelector('.profile__title');
 const profileAbout = document.querySelector('.profile__subtitle');
 const elements = document.querySelector('.elements');
+const popupOpened = document.querySelector('.popup_opened');
+
 
 const validateEditProfile = new FormValidator(validateParams, formProfileEdit);
 const validateAddCard = new FormValidator(validateParams, formCardAdd);
@@ -26,23 +30,24 @@ const validateAddCard = new FormValidator(validateParams, formCardAdd);
 validateEditProfile.enableValidation();
 validateAddCard.enableValidation();
 
+//генератор новой карточки
+const createNewCard = (cardData) => {
+  const card = new Card(cardData, cardParams, viewPhoto);
+  return card.generateCard();
 
+}
 //первая загрузка карточек из массива
 const renderCardsFromArray = () => {
   initialCards.forEach((item) => {
-    const card = new Card(item, cardParams, viewPhoto);
-    const cardElement = card.generateCard()
-    // elements.append(createCardElement(item))
-    elements.append(cardElement);
+    elements.append(createNewCard(item));
   });
 };
 
 //открываем popup фото
 const viewPhoto = (name, link) => {
-  const photo = popupPhotoOpen.querySelector('.popup__image');
-  photo.src = link;
-  photo.alt = name;
-  popupPhotoOpen.querySelector('.popup__subtitle').textContent = name;
+  popupPhotoOpenImage.src = link;
+  popupPhotoOpenImage.alt = name;
+  popupPhotoOpenSubtitle.textContent = name;
   openPopup(popupPhotoOpen);
 };
 
@@ -74,8 +79,7 @@ const handleProfileFormSubmit = (event) => {
 //при сабмите формы карточки добавляем карточку в сетку и очищаем инпуты
 const handleCardFormSubmit = (event) => {
   event.preventDefault();
-  const card = new Card({name: popupCardInputName.value, link: popupCardInputLink.value}, cardParams, viewPhoto);
-  elements.prepend(card.generateCard());
+  elements.prepend(createNewCard({name: popupCardInputName.value, link: popupCardInputLink.value}));
   closePopup(popupCardAdd);
 };
 
@@ -89,7 +93,6 @@ const closePopupByClickArea = (event) => {
 
 //закрытие попапа клавишей esc
 const closePopupByEsc = (event) => {
-  const popupOpened = document.querySelector('.popup_opened');
   if(event.key === 'Escape') {
     closePopup(popupOpened);
   }

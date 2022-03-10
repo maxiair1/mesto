@@ -47,6 +47,7 @@ class Card {
   //удаляем карточку
   _removeCard () {
     this._element.remove();
+    this._element = null;
   }
 
 }
