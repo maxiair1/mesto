@@ -11,7 +11,7 @@ class Card {
     return document
       .querySelector(this._cardParam.cardTemplate)
       .content
-      .querySelector('.element')
+      .querySelector(this._cardParam.cardElement)
       .cloneNode(true);
   }
 
@@ -41,7 +41,7 @@ class Card {
 
   //клик по лайку
   _clickToLike () {
-    this._cardLike.classList.toggle('element__heart_black_active');
+    this._cardLike.classList.toggle(this._cardParam.cardLikeActive);
   }
 
   //удаляем карточку

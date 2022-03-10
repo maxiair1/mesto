@@ -40,8 +40,9 @@ const cardParams = {
   cardImage: '.element__image',
   cardTitle: '.element__title',
   cardLike: '.element__heart',
-  cardRemove: '.element__trash'
-
+  cardRemove: '.element__trash',
+  cardElement:'.element',
+  cardLikeActive: 'element__heart_black_active'
 }
 
 export {initialCards, validateParams, cardParams};
