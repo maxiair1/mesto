@@ -5,6 +5,7 @@ import {Section} from "./Section.js";
 import {PopupWithForm} from "./PopupWithForm.js";
 import {PopupWithImage} from "./PopupWithImage.js";
 import {UserInfo} from "./UserInfo.js";
+import '../pages/index.css';
 
 const popupProfileEdit = document.querySelector('.popup_type_profile-edit');
 const formProfileEdit = document.querySelector('.popup__form_type_profile-edit')
