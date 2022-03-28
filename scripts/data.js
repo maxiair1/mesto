@@ -42,7 +42,13 @@ const cardParams = {
   cardLike: '.element__heart',
   cardRemove: '.element__trash',
   cardElement:'.element',
+  cardContainer:'.elements',
   cardLikeActive: 'element__heart_black_active'
 }
 
-export {initialCards, validateParams, cardParams};
+const profileParams = {
+  profileName: '.profile__title',
+  profileAbout: '.profile__subtitle'
+}
+
+export {initialCards, validateParams, cardParams, profileParams};

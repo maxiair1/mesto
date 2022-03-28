@@ -1,9 +1,8 @@
-
-class Card {
-  constructor(cardData, cardParam, viewPhoto){
+export class Card {
+  constructor(cardData, cardParam, handleCardClick){
     this._cardData = cardData;
     this._cardParam = cardParam;
-    this._viewPhoto = viewPhoto;
+    this._handleCardClick = handleCardClick;
   }
 
   //клонируем карточку из шаблона
@@ -14,8 +13,6 @@ class Card {
       .querySelector(this._cardParam.cardElement)
       .cloneNode(true);
   }
-
-
 
   //сгенерируем карточку
   generateCard() {
@@ -36,7 +33,7 @@ class Card {
   _addCardListeners(){
     this._cardLike.addEventListener('click', () => this._clickToLike());
     this._element.querySelector(this._cardParam.cardRemove).addEventListener('click', () => this._removeCard());
-    this._cardImage.addEventListener('click', () => this._viewPhoto(this._cardData.name, this._cardData.link));
+    this._cardImage.addEventListener('click', () => this._handleCardClick(this._cardData.name, this._cardData.link));
   }
 
   //клик по лайку
@@ -51,5 +48,3 @@ class Card {
   }
 
 }
-
-export {Card};

@@ -1,5 +1,5 @@
 
-class FormValidator {
+export class FormValidator {
   constructor(validateParams, validateForm) {
     this._validateParams = validateParams;
     this._validateForm = validateForm;
@@ -87,5 +87,3 @@ class FormValidator {
     });
   };
 }
-
-export {FormValidator};
