@@ -24,7 +24,7 @@ export class Popup {
 
   setEventListeners() { //добавляем слуштели на иконку закрытия попапа и по оверлею
     const closeButton = this._popupContainer.querySelector('.popup__button-close');
-    this._popupContainer.addEventListener('click', (event) =>{
+    this._popupContainer.addEventListener('mousedown', (event) =>{
       if(event.target === event.currentTarget || event.target === closeButton) {
         this.close();
       }

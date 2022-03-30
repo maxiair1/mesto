@@ -4,7 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: {main: './src/scripts/index.js'},
+    entry: {main: './src/pages/index.js'},
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js',
@@ -50,7 +50,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: './src/index.html',
+            favicon: './src/images/favicon.png'
         }),
         new CleanWebpackPlugin(), //плагин для удаления содержимого dist при сборке
         new MiniCssExtractPlugin(),// подключение плагина для объединения файлов

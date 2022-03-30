@@ -19,7 +19,7 @@ export class FormValidator {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this.toggleButtonState();
+        this._toggleButtonState();
       });
     });
   };
@@ -31,7 +31,7 @@ export class FormValidator {
 
 
   //меняем состояние кнопки в зависимости от валидации
-  toggleButtonState() {
+  _toggleButtonState() {
     if(this._hasInvalidInput()){
       this._buttonElement.classList.add(this._validateParams.inactiveButtonClass);
       this._buttonElement.setAttribute('disabled',true);
@@ -75,15 +75,21 @@ export class FormValidator {
     errorElement.textContent = '';
   };
 
+  resetValidation(){
+    this._toggleButtonState();
+    this._clearInputErrors();
+  }
+
   //очистка полей формы карточки
-  clearCardForm() {
+  resetForm() {
     this._validateForm.reset();
   }
 
   //очищаем ошибки с формы
-  clearErrorForm() {
+  _clearInputErrors() {
     this._inputList.forEach((input) => {
       this._hideInputError(input);
     });
   };
 }
+

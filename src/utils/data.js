@@ -43,12 +43,18 @@ const cardParams = {
   cardRemove: '.element__trash',
   cardElement:'.element',
   cardContainer:'.elements',
-  cardLikeActive: 'element__heart_black_active'
+  cardLikeActive: 'element__heart_black_active',
+  cardNameInput: 'addCard-name',
+  cardLinkInput: 'addCard-link',
+  cardFormName: 'addCard-form'
 }
 
 const profileParams = {
   profileName: '.profile__title',
-  profileAbout: '.profile__subtitle'
+  profileAbout: '.profile__subtitle',
+  profileNameInput: 'profile-name',
+  profileAboutInput: 'profile-about',
+  profileFormName: 'profile-form'
 }
 
 export {initialCards, validateParams, cardParams, profileParams};

@@ -5,15 +5,22 @@ export class PopupWithForm extends Popup {
     super(popupSelector);
     this._formSubmit = formSubmit;
     this._form = this._popupContainer.querySelector('.popup__form');
+    this._inputList = this._popupContainer.querySelectorAll('.popup__input');
   }
 
   _getInputValues(){ //собираем данные со всех полей формы
-    this._inputList = this._popupContainer.querySelectorAll('.popup__input');
-
     this._formValues = {};
     this._inputList.forEach(input => this._formValues[input.name] = input.value);
 
     return this._formValues;
+  }
+
+  getFormName() { //получить имя формы
+    return this._form.getAttribute('name');
+  }
+
+  setInputValues(data) { //вставляем данные в поля формы
+    this._inputList.forEach(input => input.value = data[input.name])
   }
 
   setEventListeners() { //добавляем обработчик сабмита формы.
