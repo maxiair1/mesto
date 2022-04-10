@@ -1,7 +1,15 @@
 .profile__avatar-image {
   width: 120px;
+  height: 120px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   border-radius: 50%;
+  transition: opacity 0.3s;
+  object-fit: cover;
+}
+.profile__avatar-image:hover {
+  opacity: 0.2;
+  cursor: pointer;
+  background-color: #000000;
 }

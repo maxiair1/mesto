@@ -25,7 +25,14 @@ class Api {
       headers: this.settings.headers,
       body: JSON.stringify({name:user.name, about: user.about})
     })
+  }
 
+  updateAvatar(link){
+    return templateFetch(`${this.settings.baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this.settings.headers,
+      body: JSON.stringify({avatar:link})
+    })
   }
 
   getCards() {

@@ -59,7 +59,8 @@ const profileParams = {
   profileAboutInput: 'profile-about',
   profileFormName: 'profile-form',
   profileFormAvatar: 'profileAvatar-form',
-  profilePopupAvatar: '.popup_type_profile-avatar'
+  profilePopupAvatar: '.popup_type_profile-avatar',
+  profileAvatar: '.profile__avatar-image',
 }
 
 export {initialCards, validateParams, cardParams, profileParams};

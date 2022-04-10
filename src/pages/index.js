@@ -41,10 +41,13 @@ enableValidation(validateParams);
 Promise.all([ api.getProfile(), api.getCards() ])
   .then( ([userData, cardsData]) => {
 
-    const userInfo = new UserInfo(profileParams);
+    const userInfo = new UserInfo(profileParams, () => {
+      popupAvatar.open();
+
+    });
 
     console.log('promiseAll: ', userData, cardsData)
-    renderProfileInfo(userData);
+    renderProfileInfo(userData, userData.avatar);
     // console.log('userId: ', userData.name);
 
     const cardList = new Section({
@@ -122,10 +125,11 @@ Promise.all([ api.getProfile(), api.getCards() ])
       popupNewCard.open();
     };
 
-    function renderProfileInfo({name, about}) {
+    function renderProfileInfo({name, about},link) {
       // console.log('userData: ', name, about)
       // userInfo.setUserInfo(data[profileParams.profileNameInput], data[profileParams.profileAboutInput]);
       userInfo.setUserInfo(name, about);
+      userInfo.setUserAvatar(link);
     }
 
 //сабмит формы профиля
@@ -139,15 +143,20 @@ Promise.all([ api.getProfile(), api.getCards() ])
     const popupNewCard = new PopupWithForm('.popup_type_card-add', () => {
       api.addCard(popupNewCard.getInputCard())
         .then( res => {
-          console.log('addCard: ', res);
           handleCardFormSubmit(res)
+        })
+    } );
+    const popupAvatar = new PopupWithForm('.popup_type_profile-avatar', () => {
+      api.updateAvatar(userData.avatar)
+        .then( res => {
+          console.log('Avatar: ', res);
+          userInfo.setUserAvatar(res.avatar);
         })
     } );
 
     const popupDeleteCard = new PopupWithForm('.popup_type_card-delete', () => {
       api.addCard(popupDeleteCard.getInputCard())
         .then( res => {
-          console.log('addCard: ', res);
           handleCardFormSubmit(res)
         })
     });
@@ -165,6 +174,8 @@ Promise.all([ api.getProfile(), api.getCards() ])
     popupProfile.setEventListeners();
     popupNewCard.setEventListeners();
     popupDeleteCard.setEventListeners();
+    popupAvatar.setEventListeners();
+    userInfo.setEventListeners();
 
     buttonEditProfile.addEventListener('click', openEditProfile);
     buttonAddCard.addEventListener('click', openAddCard);

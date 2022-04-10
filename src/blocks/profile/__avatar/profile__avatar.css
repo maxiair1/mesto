@@ -1,10 +1,33 @@
 .profile__avatar {
   margin: 0;
   grid-area: img;
+  position: relative;
+
 }
 
 @media screen and (max-width: 900px) {
   .profile__avatar {
     margin: 0 auto;
   }
+}
+
+.profile__avatar::after {
+  background-image: url("../../../images/Vector.svg");
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  content: "";
+  opacity: 0;
+  top: 40%;
+  left: 40%;
+  transition: opacity 0.3s;
+
+}
+
+.profile__avatar:hover::after {
+  opacity: 1;
+  cursor: pointer;
 }
