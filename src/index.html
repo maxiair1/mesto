@@ -70,13 +70,37 @@
           <button type="button" name="button-close_type_photo-open" aria-label="Закрыть" class="popup__button-close popup__button-close_type_photo-open"></button>
         </div>
       </div>
+      <div class="popup popup_type_card-delete">
+        <div class="popup__container">
+          <form action="#" name="deleteCard-form" class="popup__form popup__form_type_card-delete" novalidate>
+            <h2 class="popup__title">Вы уверены?</h2>
+            <button type="submit" class="popup__button-submit popup__button-submit_type_card-delete">Да</button>
+          </form>
+          <button type="button" name="button-close_type_card-delete" aria-label="Закрыть" class="popup__button-close popup__button-close_type_profile-edit"></button>
+        </div>
+      </div>
+      <div class="popup popup_type_profile-avatar">
+        <div class="popup__container">
+          <form action="#" name="profileAvatar-form" class="popup__form popup__form_type_profile-avatar" novalidate>
+            <h2 class="popup__title">Обновить аватар?</h2>
+            <label class="popup__label">
+              <input id="avatar-link" type="url" name="addAvatar-link" value="" placeholder="Ссылка на картинку" class="popup__input popup__input_field_about" required>
+              <span class="popup__input-error card-link-error"></span>
+            </label>
+            <button type="submit" class="popup__button-submit popup__button-submit_type_profile-avatar">Сохранить</button>
+          </form>
+          <button type="button" name="button-close_type_card-add" aria-label="Закрыть" class="popup__button-close popup__button-close_type_card-add"></button>
+        </div>
+      </div>
     </div>
+
     <template id="template-card">
       <article class="element">
         <img src="#" alt="" class="element__image">
         <div class="element__title-field">
           <h2 class="element__title"></h2>
           <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
+          <span class="element__heart-count"></span>
         </div>
         <button type="button" name="button-trash" aria-label="Удалить" class="element__trash"></button>
       </article>

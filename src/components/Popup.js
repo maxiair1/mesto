@@ -1,7 +1,9 @@
 export class Popup {
   constructor(popupSelector) {
     this._popupContainer = document.querySelector(popupSelector);
-    this._handleEscClose = this._handleEscClose.bind(this)
+    this._handleEscClose = this._handleEscClose.bind(this);
+    this._closeButton = this._popupContainer.querySelector('.popup__button-close');
+
   }
 
   open() { //открытие попапа
@@ -23,9 +25,8 @@ export class Popup {
   }
 
   setEventListeners() { //добавляем слуштели на иконку закрытия попапа и по оверлею
-    const closeButton = this._popupContainer.querySelector('.popup__button-close');
     this._popupContainer.addEventListener('mousedown', (event) =>{
-      if(event.target === event.currentTarget || event.target === closeButton) {
+      if(event.target === event.currentTarget || event.target === this._closeButton) {
         this.close();
       }
     });

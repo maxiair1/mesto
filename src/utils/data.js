@@ -44,9 +44,12 @@ const cardParams = {
   cardElement:'.element',
   cardContainer:'.elements',
   cardLikeActive: 'element__heart_black_active',
+  cardLikeCount: '.element__heart-count',
   cardNameInput: 'addCard-name',
   cardLinkInput: 'addCard-link',
-  cardFormName: 'addCard-form'
+  cardFormName: 'addCard-form',
+  cardFormDelete: 'deleteCard-form',
+  cardPopupDelete: '.popup_type_card-delete',
 }
 
 const profileParams = {
@@ -54,7 +57,9 @@ const profileParams = {
   profileAbout: '.profile__subtitle',
   profileNameInput: 'profile-name',
   profileAboutInput: 'profile-about',
-  profileFormName: 'profile-form'
+  profileFormName: 'profile-form',
+  profileFormAvatar: 'profileAvatar-form',
+  profilePopupAvatar: '.popup_type_profile-avatar'
 }
 
 export {initialCards, validateParams, cardParams, profileParams};
