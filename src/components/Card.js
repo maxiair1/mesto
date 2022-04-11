@@ -14,11 +14,6 @@ export class Card {
     this._cardRemove = this._element.querySelector(this._cardParam.cardRemove);
   }
 
-  // //клонируем карточку из шаблона
-  // _getTemplate () {
-  //   return this._templateElement.cloneNode(true);
-  // }
-
   //сгенерируем карточку
   generate() {
     this._cardImage = this._element.querySelector(this._cardParam.cardImage);
@@ -42,11 +37,6 @@ export class Card {
     this._cardRemove.addEventListener('click', () => this._handleCardDelete(this._cardData._id));
     this._cardImage.addEventListener('click', () => this._handleCardClick(this._cardData.name, this._cardData.link));
   }
-
-  //клик по лайку
-  // _clickToLike() {
-  //   this._cardLike.classList.toggle(this._cardParam.cardLikeActive);
-  // }
 
 
   setLikes(newLike) { //передаем св-во likes (массив объектов из юзеров) из объекта карточки

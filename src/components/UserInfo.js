@@ -1,16 +1,16 @@
 
 export class UserInfo {
-  constructor({profileName , profileAbout ,profileAvatar}, handlerAvatar) {
+  constructor({profileName , profileAbout ,profileAvatar}) {
     this._profileName = document.querySelector(profileName);
     this._profileAbout = document.querySelector(profileAbout);
     this._profileAvatar = document.querySelector(profileAvatar);
-    this._handlerAvatar = handlerAvatar;
   }
 
   getUserInfo() { //возвращаем данные пользователя
     return {
       name: this._profileName.textContent,
-      about: this._profileAbout.textContent
+      about: this._profileAbout.textContent,
+      avatar: this._profileAvatar.src
     }
   }
 
@@ -23,9 +23,4 @@ export class UserInfo {
     this._profileAvatar.src = link;
   }
 
-  setEventListeners() {
-    this._profileAvatar.addEventListener('click', () => {
-      this._handlerAvatar()
-    })
-  }
 }

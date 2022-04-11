@@ -6,7 +6,7 @@ export class PopupWithForm extends Popup {
     this._formSubmit = formSubmit;
     this._form = this._popupContainer.querySelector('.popup__form');
     this._inputList = this._popupContainer.querySelectorAll('.popup__input');
-    this._submitButton = this._popupContainer.querySelectorAll('.popup__button-submit');
+    this._submitButton = this._popupContainer.querySelector('.popup__button-submit');
   }
 
   _getInputValues(){ //собираем данные со всех полей формы
@@ -20,7 +20,6 @@ export class PopupWithForm extends Popup {
     this._formValues = {};
     this._formValues.name = this._inputList[0].value;
     this._formValues.about = this._inputList[1].value;
-    console.log('inputProfile: ', this._formValues);
     return this._formValues;
   }
 
@@ -28,10 +27,13 @@ export class PopupWithForm extends Popup {
     this._formValues = {};
     this._formValues.name = this._inputList[0].value;
     this._formValues.link = this._inputList[1].value;
-    console.log('inputCard: ', this._formValues);
     return this._formValues;
   }
 
+  getInputAvatar(){
+    const link = this._inputList[0].value;
+    return link;
+  }
 
   getFormName() { //получить имя формы
     return this._form.getAttribute('name');

@@ -85,7 +85,7 @@
             <h2 class="popup__title">Обновить аватар?</h2>
             <label class="popup__label">
               <input id="avatar-link" type="url" name="addAvatar-link" value="" placeholder="Ссылка на картинку" class="popup__input popup__input_field_about" required>
-              <span class="popup__input-error card-link-error"></span>
+              <span class="popup__input-error avatar-link-error"></span>
             </label>
             <button type="submit" class="popup__button-submit popup__button-submit_type_profile-avatar">Сохранить</button>
           </form>
@@ -99,8 +99,11 @@
         <img src="#" alt="" class="element__image">
         <div class="element__title-field">
           <h2 class="element__title"></h2>
-          <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
-          <span class="element__heart-count"></span>
+          <div class="element__like">
+            <button type="button" name="button-like" aria-label="Нравится" class="element__heart"></button>
+            <span class="element__heart-count"></span>
+          </div>
+
         </div>
         <button type="button" name="button-trash" aria-label="Удалить" class="element__trash"></button>
       </article>

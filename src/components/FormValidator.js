@@ -61,7 +61,7 @@ export class FormValidator {
 
   //отображение ошибки
   _showInputError(inputElement, errorMessage) {
-    const errorElement = this._validateForm.querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._validateForm.querySelector(`.${inputElement.id}-error`);//класс у спана ошибки: id_инпута-error
     inputElement.classList.add(this._validateParams.inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this._validateParams.errorClass);
@@ -69,7 +69,7 @@ export class FormValidator {
 
 //удаление ошибки
   _hideInputError(inputElement) {
-    const errorElement = this._validateForm.querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._validateForm.querySelector(`.${inputElement.id}-error`);//класс у спана ошибки: id_инпута-error
     inputElement.classList.remove(this._validateParams.inputErrorClass);
     errorElement.classList.remove(this._validateParams.errorClass);
     errorElement.textContent = '';
