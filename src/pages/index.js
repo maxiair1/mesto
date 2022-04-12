@@ -4,6 +4,7 @@ import {FormValidator} from '../components/FormValidator.js'
 import {Section} from "../components/Section.js";
 import {PopupWithForm} from "../components/PopupWithForm.js";
 import {PopupWithImage} from "../components/PopupWithImage.js";
+import {PopupWithConfirmation} from "../components/PopupWithConfirmation.js";
 import {UserInfo} from "../components/UserInfo.js";
 import {api} from "../components/Api.js";
 import './index.css';
@@ -62,12 +63,9 @@ Promise.all([ api.getProfile(), api.getCards() ])
         - если карточка не была нами лайкнута ранее, отправляем запрос на добавление и в ответе отображаем на странице
         - если была лайкнута ранее, отправляем запрос на удаление лайка и в ответе отображаем на страницеб
       callback ( Card -> handleCardDelete(card.id) )
-        - передаем ф-ю Card -> вешаем ее на обработчик по клику на корзинку и тамже передаем агрументы.
+        - передаем ф-ю в Card -> вешаем ее на обработчик по клику на корзинку и тамже передаем агрументы.
         - обработчик вызывая ф-ю открывает попап запроса на удаление
-        - перезаписываем сабмит ф-ю у экз. PopupWithForm:
-          1) на кнопке сабмита отображаем надпись "Сохранение...", пока данные грузятся
-          2) отправляем запрос на удаление карточки на сервер, передав ID карточки
-          3) в ответе удаляем карточку со страницы, возвращаем надпись кнопке и закрываем попап
+
     */
     const createNewCard = (cardData) => {
       cardData.userId = userData._id;
@@ -96,16 +94,8 @@ Promise.all([ api.getProfile(), api.getCards() ])
           }
         },
         (id) => {
-          popupDeleteCard.open()
-          popupDeleteCard.updateSubmitHandler( () => {
-            popupDeleteCard.setButtonText('Сохранение...');
-            api.deleteCard(id)
-              .then( res => {
-                card.remove();
-                popupDeleteCard.setButtonText('Да');
-                popupDeleteCard.close();
-              })
-          })
+          openPopupDeleteCard()
+          handlerDeleteCard(id,card)
         }
         );
       return card.generate();
@@ -142,6 +132,13 @@ Promise.all([ api.getProfile(), api.getCards() ])
       popupNewCard.open();
     };
 
+    //открываем попап удаления карточки
+    const openPopupDeleteCard = () => {
+      popupDeleteCard.open()
+
+
+    }
+
     //отрисовка профиля на странице
     function renderProfileInfo({name, about}) {
       userInfo.setUserInfo(name, about);
@@ -152,13 +149,33 @@ Promise.all([ api.getProfile(), api.getCards() ])
       userInfo.setUserAvatar(link);
     }
 
+/*    //сабмит удаления карточки
+    передаем как callback в конструктор Card
+    id получает в обработчике Card
+    ссылку на card получает в createNewCard()
+    updateSubmitHandler перезаписываем сабмит ф-ю у экз. PopupWithConfirmation, чтобы у нов ф-ии были id и card:
+          1) на кнопке сабмита отображаем надпись "Сохранение...", пока данные грузятся
+          2) отправляем запрос на удаление карточки на сервер, передав ID карточки
+          3) в ответе удаляем карточку со страницы, возвращаем надпись кнопке и закрываем попап
+    */
+    const handlerDeleteCard = (id,card) => {
+      popupDeleteCard.updateSubmitHandler( () => {
+        popupDeleteCard.setButtonText('Сохранение...');
+        api.deleteCard(id)
+          .then( res => {
+            card.remove();
+            popupDeleteCard.setButtonText('Да');
+            popupDeleteCard.close();
+          })
+      })
+    }
+
     //вызывается при сабмите формы карточки
     //data - obj карточки
     const handleCardFormSubmit = (data) => {
       const newCardData = createNewCard(data)
       cardList.addItem(newCardData);
       popupNewCard.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
-
       popupNewCard.close();
     };
 
@@ -166,7 +183,6 @@ Promise.all([ api.getProfile(), api.getCards() ])
     const handleAvatarFormSubmit = (link) => {
       renderUserAvatar(link)
       popupAvatar.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
-
       popupAvatar.close();
     };
 
@@ -199,10 +215,10 @@ Promise.all([ api.getProfile(), api.getCards() ])
         })
     } );
 
-    const popupDeleteCard = new PopupWithForm('.popup_type_card-delete', () => {
-      api.addCard(popupDeleteCard.getInputCard())
+    const popupDeleteCard = new PopupWithConfirmation('.popup_type_card-delete', () => {
+      api.deleteCard(id)
         .then( res => {
-          handleCardFormSubmit(res)
+          handlerDeleteCard(res)
         })
     });
 

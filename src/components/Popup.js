@@ -3,6 +3,7 @@ export class Popup {
     this._popupContainer = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._closeButton = this._popupContainer.querySelector('.popup__button-close');
+    this._submitButton = this._popupContainer.querySelector('.popup__button-submit');
 
   }
 
@@ -30,6 +31,10 @@ export class Popup {
         this.close();
       }
     });
+  }
+
+  setButtonText(text){
+    this._submitButton.textContent = text;
   }
 
 }

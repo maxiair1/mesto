@@ -6,7 +6,6 @@ export class PopupWithForm extends Popup {
     this._formSubmit = formSubmit;
     this._form = this._popupContainer.querySelector('.popup__form');
     this._inputList = this._popupContainer.querySelectorAll('.popup__input');
-    this._submitButton = this._popupContainer.querySelector('.popup__button-submit');
   }
 
   _getInputValues(){ //собираем данные со всех полей формы
@@ -56,11 +55,7 @@ export class PopupWithForm extends Popup {
     this._form.reset();
   }
 
-  setButtonText(text){
-    this._submitButton.textContent = text;
-  }
 
-  updateSubmitHandler(fn){
-    this._formSubmit = fn;
-  }
+
+
 }
