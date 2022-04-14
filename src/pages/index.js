@@ -29,6 +29,7 @@ enableValidation(validateParams);
 
 
 Promise.all([ api.getProfile(), api.getCards() ])
+
   .then( ([userData, cardsData]) => {
 
     /*создаем экз. Section( {
@@ -85,12 +86,16 @@ Promise.all([ api.getProfile(), api.getCards() ])
                 //передаем массив likes, обновляем счетчик, обновляем массив в obj карточки и закрашиваем like
                 card.setLikes(res.likes)
               })
+              .catch(err => console.log('Ошибка при клике на лайк: ',err))
+
           } else {
             api.deleteLike(id)
               .then(res => {
                 //передаем массив likes, обновляем счетчик, обновляем массив в obj карточки и убираем закрашивание like
                 card.setLikes(res.likes)
               })
+              .catch(err => console.log('Ошибка при удалении лайка: ',err))
+
           }
         },
         (id) => {
@@ -140,49 +145,53 @@ Promise.all([ api.getProfile(), api.getCards() ])
     }
 
     //отрисовка профиля на странице
-    function renderProfileInfo({name, about}) {
+    const renderProfileInfo = ({name, about}) => {
       userInfo.setUserInfo(name, about);
     }
 
     //отрисовка аватара на странице
-    function renderUserAvatar(link){
+    const renderUserAvatar = (link) => {
       userInfo.setUserAvatar(link);
     }
 
-/*    //сабмит удаления карточки
+/*    //выполняется при клике на удаление карточки
     передаем как callback в конструктор Card
     id получает в обработчике Card
     ссылку на card получает в createNewCard()
     updateSubmitHandler перезаписываем сабмит ф-ю у экз. PopupWithConfirmation, чтобы у нов ф-ии были id и card:
-          1) на кнопке сабмита отображаем надпись "Сохранение...", пока данные грузятся
+          1) перед запросом на сервер на кнопке сабмита отображаем надпись "Сохранение...", пока данные грузятся
           2) отправляем запрос на удаление карточки на сервер, передав ID карточки
-          3) в ответе удаляем карточку со страницы, возвращаем надпись кнопке и закрываем попап
+          3) в ответе удаляем карточку со страницы и закрываем попап
+    не зависимо от того какой ответ возвращаем надпись кнопке
     */
     const handlerDeleteCard = (id,card) => {
       popupDeleteCard.updateSubmitHandler( () => {
+
         popupDeleteCard.setButtonText('Сохранение...');
         api.deleteCard(id)
-          .then( res => {
+          .then( () => {
             card.remove();
-            popupDeleteCard.setButtonText('Да');
             popupDeleteCard.close();
           })
+          .catch(err => console.log('Ошибка при удалении карточки1: ',err))
+          .finally(() =>       popupDeleteCard.setButtonText('Да'))
       })
     }
+
 
     //вызывается при сабмите формы карточки
     //data - obj карточки
     const handleCardFormSubmit = (data) => {
       const newCardData = createNewCard(data)
       cardList.addItem(newCardData);
-      popupNewCard.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
+      // popupNewCard.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
       popupNewCard.close();
     };
 
     //сабмит формы аватара
     const handleAvatarFormSubmit = (link) => {
       renderUserAvatar(link)
-      popupAvatar.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
+      // popupAvatar.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
       popupAvatar.close();
     };
 
@@ -190,45 +199,56 @@ Promise.all([ api.getProfile(), api.getCards() ])
     //сабмит формы профиля
     const handleProfileFormSubmit = (data) => {
       renderProfileInfo(data);
-      popupProfile.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
-
       popupProfile.close();
     };
+
 
     //создаем экз. классов попап
     const popupImage = new PopupWithImage('.popup_type_photo-open');
     const popupNewCard = new PopupWithForm('.popup_type_card-add', () => {
       popupNewCard.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
 
-      api.addCard(popupNewCard.getInputCard())
+      api.addCard(popupNewCard.getInputValues(), {name: cardParams.cardNameInput, link: cardParams.cardLinkInput})
         .then( res => {
           handleCardFormSubmit(res)
-
         })
+        .catch(err => console.log('Ошибка при добавлении карточки: ',err))
+        .finally(() =>       popupNewCard.setButtonText('Сохранить'))
+
     } );
     const popupAvatar = new PopupWithForm('.popup_type_profile-avatar', () => {
       popupAvatar.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
 
-      api.updateAvatar(popupAvatar.getInputAvatar())
+      api.updateAvatar(popupAvatar.getInputValues(),{propLink: profileParams.profileAvatarInput})
         .then( res => {
           handleAvatarFormSubmit(res.avatar)
         })
+        .catch(err => console.log('Ошибка в обновлении аватара: ',err))
+        .finally(() =>       popupAvatar.setButtonText('Сохранить'))
     } );
 
+    //попап удаления карточки
     const popupDeleteCard = new PopupWithConfirmation('.popup_type_card-delete', () => {
-      api.deleteCard(id)
-        .then( res => {
-          handlerDeleteCard(res)
-        })
+      console.log('delete card error')
+      // api.deleteCard(id)
+      //   .then( res => {
+      //     handlerDeleteCard(res)
+      //   })
+      //   .catch(err => console.log('Ошибка при удалении карточки: ',err))
+      //   .finally(() =>       popupDeleteCard.setButtonText('Да'))
+
     });
 
     const popupProfile = new PopupWithForm('.popup_type_profile-edit', () => {
       popupProfile.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
 
-      api.editProfile(popupProfile.getInputProfile())
+      api.editProfile(popupProfile.getInputValues(),{name: profileParams.profileNameInput, about: profileParams.profileAboutInput})
         .then((res) => {
           handleProfileFormSubmit(res)
         })
+        .catch(err => console.log('Ошибка в обновлении профиля: ',err))
+        //возвращаем кнопке текст после того как отправили форму
+        .finally(() =>       popupProfile.setButtonText('Сохранить'))
     });
 
     //рендерим name, about и avatar юзера. userData - obj с сервера, userData.avatar - линк на аватар
@@ -248,7 +268,7 @@ Promise.all([ api.getProfile(), api.getCards() ])
     buttonAddCard.addEventListener('click', openAddCard);
     avatarIcon.addEventListener('click', openUpdateAvatar);
   })
-
+  .catch(err => console.log(err))
 
 
 
