@@ -167,7 +167,7 @@ Promise.all([ api.getProfile(), api.getCards() ])
     const handlerDeleteCard = (id,card) => {
       popupDeleteCard.updateSubmitHandler( () => {
 
-        popupDeleteCard.setButtonText('Сохранение...');
+        popupDeleteCard.setButtonText('Удаление...');
         api.deleteCard(id)
           .then( () => {
             card.remove();
@@ -208,7 +208,7 @@ Promise.all([ api.getProfile(), api.getCards() ])
     const popupNewCard = new PopupWithForm('.popup_type_card-add', () => {
       popupNewCard.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
 
-      api.addCard(popupNewCard.getInputValues(), {name: cardParams.cardNameInput, link: cardParams.cardLinkInput})
+      api.addCard(popupNewCard.getInputValues({name: cardParams.cardNameInput, link: cardParams.cardLinkInput}) )
         .then( res => {
           handleCardFormSubmit(res)
         })
@@ -219,7 +219,7 @@ Promise.all([ api.getProfile(), api.getCards() ])
     const popupAvatar = new PopupWithForm('.popup_type_profile-avatar', () => {
       popupAvatar.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
 
-      api.updateAvatar(popupAvatar.getInputValues(),{propLink: profileParams.profileAvatarInput})
+      api.updateAvatar(popupAvatar.getInputValues({avatar: profileParams.profileAvatarInput}))
         .then( res => {
           handleAvatarFormSubmit(res.avatar)
         })
@@ -230,19 +230,14 @@ Promise.all([ api.getProfile(), api.getCards() ])
     //попап удаления карточки
     const popupDeleteCard = new PopupWithConfirmation('.popup_type_card-delete', () => {
       console.log('delete card error')
-      // api.deleteCard(id)
-      //   .then( res => {
-      //     handlerDeleteCard(res)
-      //   })
-      //   .catch(err => console.log('Ошибка при удалении карточки: ',err))
-      //   .finally(() =>       popupDeleteCard.setButtonText('Да'))
+
 
     });
 
     const popupProfile = new PopupWithForm('.popup_type_profile-edit', () => {
       popupProfile.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
 
-      api.editProfile(popupProfile.getInputValues(),{name: profileParams.profileNameInput, about: profileParams.profileAboutInput})
+      api.editProfile(popupProfile.getInputValues({name: profileParams.profileNameInput, about: profileParams.profileAboutInput}))
         .then((res) => {
           handleProfileFormSubmit(res)
         })

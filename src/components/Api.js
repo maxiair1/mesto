@@ -21,19 +21,19 @@ class Api {
     })
   }
 
-  editProfile(user, inputName) {
+  editProfile(user) {
     return this._makeNewFetch(`${this.settings.baseUrl}/users/me`, {
       method: "PATCH",
       headers: this.settings.headers,
-      body: JSON.stringify({name:user[inputName.name], about: user[inputName.about]})
+      body: JSON.stringify(user)
     })
   }
 
-  updateAvatar(link,inputName){
+  updateAvatar(avatar){
     return this._makeNewFetch(`${this.settings.baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this.settings.headers,
-      body: JSON.stringify({avatar:link[inputName.propLink]})
+      body: JSON.stringify(avatar)
     })
   }
 
@@ -43,11 +43,11 @@ class Api {
     })
   }
 
-  addCard(card, inputName) {
+  addCard(card) {
     return this._makeNewFetch(`${this.settings.baseUrl}/cards`, {
       method: "POST",
       headers: this.settings.headers,
-      body: JSON.stringify({name: card[inputName.name], link: card[inputName.link]})
+      body: JSON.stringify(card)
     })
 }
 
@@ -57,8 +57,7 @@ class Api {
       headers: this.settings.headers,
 
     })
-      .then( res => res.ok ? res.json() : Promise.reject(res.status))
-      .catch(console.log)
+
   }
 
   addLike(id) {

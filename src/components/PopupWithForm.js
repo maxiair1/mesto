@@ -8,11 +8,20 @@ export class PopupWithForm extends Popup {
     this._inputList = this._popupContainer.querySelectorAll('.popup__input');
   }
 
-  getInputValues(){ //собираем данные со всех полей формы
+  getInputValues(config){ //собираем данные со всех полей формы и формируем объект с ключами из config
+    //config вида {key - соотв ключу в api : value - соотв input-name}
+    this._inputValuesObj = {};
     this._formValues = {};
+
+    //собираем объект вида {"input-name" : "input_value"}
     this._inputList.forEach(input => this._formValues[input.name] = input.value);
 
-    return this._formValues;
+    //собираем объкт вида {"config-key" : "input_value"} где config.value === _formValues.key
+    Object.keys(config).forEach( item => {
+      this._inputValuesObj[item] = this._formValues[config[item]];
+    });
+
+    return this._inputValuesObj;
   }
 
 
@@ -28,7 +37,7 @@ export class PopupWithForm extends Popup {
     super.setEventListeners();
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._formSubmit(this.getInputValues());
+      this._formSubmit();
     })
   }
 
