@@ -174,7 +174,7 @@ Promise.all([ api.getProfile(), api.getCards() ])
             popupDeleteCard.close();
           })
           .catch(err => console.log('Ошибка при удалении карточки1: ',err))
-          .finally(() =>       popupDeleteCard.setButtonText('Да'))
+          .finally(() =>  popupDeleteCard.setButtonText('Да'))
       })
     }
 
@@ -184,14 +184,12 @@ Promise.all([ api.getProfile(), api.getCards() ])
     const handleCardFormSubmit = (data) => {
       const newCardData = createNewCard(data)
       cardList.addItem(newCardData);
-      // popupNewCard.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
       popupNewCard.close();
     };
 
     //сабмит формы аватара
     const handleAvatarFormSubmit = (link) => {
       renderUserAvatar(link)
-      // popupAvatar.setButtonText('Сохранить');//возвращаем кнопке текст после того как отправили форму
       popupAvatar.close();
     };
 
@@ -207,19 +205,21 @@ Promise.all([ api.getProfile(), api.getCards() ])
     const popupImage = new PopupWithImage('.popup_type_photo-open');
     const popupNewCard = new PopupWithForm('.popup_type_card-add', () => {
       popupNewCard.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
-
-      api.addCard(popupNewCard.getInputValues({name: cardParams.cardNameInput, link: cardParams.cardLinkInput}) )
+      const formValues = popupNewCard.getInputValues();
+      api.addCard({name: formValues[cardParams.cardNameInput], link: formValues[cardParams.cardLinkInput]})
         .then( res => {
           handleCardFormSubmit(res)
         })
         .catch(err => console.log('Ошибка при добавлении карточки: ',err))
         .finally(() =>       popupNewCard.setButtonText('Сохранить'))
-
     } );
+
+
+    //попап обновления аватара
     const popupAvatar = new PopupWithForm('.popup_type_profile-avatar', () => {
       popupAvatar.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
-
-      api.updateAvatar(popupAvatar.getInputValues({avatar: profileParams.profileAvatarInput}))
+      const formValues = popupAvatar.getInputValues();
+      api.updateAvatar({avatar: formValues[profileParams.profileAvatarInput]})
         .then( res => {
           handleAvatarFormSubmit(res.avatar)
         })
@@ -227,17 +227,18 @@ Promise.all([ api.getProfile(), api.getCards() ])
         .finally(() =>       popupAvatar.setButtonText('Сохранить'))
     } );
 
+
     //попап удаления карточки
     const popupDeleteCard = new PopupWithConfirmation('.popup_type_card-delete', () => {
       console.log('delete card error')
-
-
     });
 
+
+    //попап обновления профиля
     const popupProfile = new PopupWithForm('.popup_type_profile-edit', () => {
       popupProfile.setButtonText('Сохранение...'); //добавляем кнопке текст пока данные грузятся
-
-      api.editProfile(popupProfile.getInputValues({name: profileParams.profileNameInput, about: profileParams.profileAboutInput}))
+      const formValues = popupProfile.getInputValues();
+      api.editProfile({name: formValues[profileParams.profileNameInput], about: formValues[profileParams.profileAboutInput]})
         .then((res) => {
           handleProfileFormSubmit(res)
         })
@@ -245,6 +246,7 @@ Promise.all([ api.getProfile(), api.getCards() ])
         //возвращаем кнопке текст после того как отправили форму
         .finally(() =>       popupProfile.setButtonText('Сохранить'))
     });
+
 
     //рендерим name, about и avatar юзера. userData - obj с сервера, userData.avatar - линк на аватар
     renderProfileInfo(userData);
