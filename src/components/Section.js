@@ -6,7 +6,7 @@ export class Section {
    }
 
   addItem(element) { //добавляем элемент на страницу
-    this._container.prepend(element);
+    this._container.append(element);
   }
 
   clear() { //очищаем содержимое элемента
